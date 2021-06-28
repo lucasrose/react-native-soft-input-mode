@@ -12,8 +12,18 @@ import com.facebook.react.module.annotations.ReactModule;
 public class SoftInputModeModule extends ReactContextBaseJavaModule {
     public static final String NAME = "SoftInputMode";
 
+    private static final String SOFT_INPUT_ADJUST_NOTHING = "ADJUST_NOTHING";
+    private static final String SOFT_INPUT_ADJUST_PAN = "ADJUST_PAN";
+    private static final String SOFT_INPUT_ADJUST_RESIZE = "ADJUST_RESIZE";
+    private static final String SOFT_INPUT_ADJUST_UNSPECIFIED = "ADJUST_UNSPECIFIED";
+
+    private int defaultSoftInputMode;
+
+    private int defaultInputMode;
+
     public SoftInputModeModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        this.defaultInputMode = getActivity().getWindow().getAttributes().softInputMode;
     }
 
     @Override
@@ -22,13 +32,44 @@ public class SoftInputModeModule extends ReactContextBaseJavaModule {
         return NAME;
     }
 
+    private Handler mHandler = new Handler(getReactApplicationContext().getMainLooper()){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            setInputMode(msg);
+        }
+    };
 
-    // Example method
-    // See https://reactnative.dev/docs/native-modules-android
-    @ReactMethod
-    public void multiply(int a, int b, Promise promise) {
-        promise.resolve(a * b);
+  private void setInputMode(Window msg) {
+    Activity activity = getCurrentActivity();
+    if (activity != null) {
+        activity.getWindow().setSoftInputMode(msg.what);
+    }
+  }
+
+  @Nullable
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put(SOFT_INPUT_ADJUST_NOTHING., WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        constants.put(SOFT_INPUT_ADJUST_PAN, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        constants.put(SOFT_INPUT_ADJUST_RESIZE, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        constants.put(SOFT_INPUT_ADJUST_UNSPECIFIED, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED);
+        return constants;
     }
 
-    public static native int nativeMultiply(int a, int b);
+    @ReactMethod
+    public void set(int type) {
+      Message msg = Message.obtain();
+      msg.what = type;
+      mHandler.sendMessageDelayed(msg, 0);
+    }
+
+    @ReactMethod
+    public void reset() {
+      if (defaultInputMode !== null) {
+        set(defaultInputMode);
+      }
+    }
+
 }

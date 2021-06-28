@@ -13,9 +13,6 @@ npm install react-native-soft-input-mode
 ```js
 import SoftInputMode from "react-native-soft-input-mode";
 
-// ...
-
-const result = await SoftInputMode.multiply(3, 7);
 ```
 
 ## Contributing
