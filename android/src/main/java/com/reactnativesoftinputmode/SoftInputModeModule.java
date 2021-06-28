@@ -51,7 +51,7 @@ public class SoftInputModeModule extends ReactContextBaseJavaModule {
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put(SOFT_INPUT_ADJUST_NOTHING., WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        constants.put(SOFT_INPUT_ADJUST_NOTHING, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         constants.put(SOFT_INPUT_ADJUST_PAN, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         constants.put(SOFT_INPUT_ADJUST_RESIZE, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         constants.put(SOFT_INPUT_ADJUST_UNSPECIFIED, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED);
