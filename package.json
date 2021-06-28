@@ -26,8 +26,7 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "prettier": "prettier --write '*.{js,ts,tsx,json}' '**/*.{js,ts,tsx,json}'",
-    "bootstrap": "yarn example && yarn && yarn pods"
+    "prettier": "prettier --write '*.{js,ts,tsx,json}' '**/*.{js,ts,tsx,json}'"
   },
   "keywords": [
     "react-native",
