@@ -1,12 +1,20 @@
 package com.reactnativesoftinputmode;
 
-import androidx.annotation.NonNull;
+import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
+import android.view.WindowManager;
 
-import com.facebook.react.bridge.Promise;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @ReactModule(name = SoftInputModeModule.NAME)
 public class SoftInputModeModule extends ReactContextBaseJavaModule {
@@ -16,14 +24,15 @@ public class SoftInputModeModule extends ReactContextBaseJavaModule {
     private static final String SOFT_INPUT_ADJUST_PAN = "ADJUST_PAN";
     private static final String SOFT_INPUT_ADJUST_RESIZE = "ADJUST_RESIZE";
     private static final String SOFT_INPUT_ADJUST_UNSPECIFIED = "ADJUST_UNSPECIFIED";
-
-    private int defaultSoftInputMode;
-
-    private int defaultInputMode;
+    
+    private Integer defaultInputMode;
 
     public SoftInputModeModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.defaultInputMode = getActivity().getWindow().getAttributes().softInputMode;
+        Activity activity = getCurrentActivity();
+        if (activity != null){
+            this.defaultInputMode = activity.getWindow().getAttributes().softInputMode;
+        }
     }
 
     @Override
@@ -36,16 +45,12 @@ public class SoftInputModeModule extends ReactContextBaseJavaModule {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            setInputMode(msg);
+            Activity activity = getCurrentActivity();
+            if (activity != null) {
+                activity.getWindow().setSoftInputMode(msg.what);
+            }
         }
     };
-
-  private void setInputMode(Window msg) {
-    Activity activity = getCurrentActivity();
-    if (activity != null) {
-        activity.getWindow().setSoftInputMode(msg.what);
-    }
-  }
 
   @Nullable
     @Override
@@ -67,7 +72,7 @@ public class SoftInputModeModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void reset() {
-      if (defaultInputMode !== null) {
+      if (defaultInputMode != null) {
         set(defaultInputMode);
       }
     }
