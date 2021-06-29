@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 
-import SoftInputMode from 'react-native-soft-input-mode';
+import SoftInputMode from './index';
 
-export const useSoftInputMode = (mode: number) => {
+const useSoftInputModeAndroid = (mode: number) => {
   useEffect(() => {
     SoftInputMode.set(mode);
 
@@ -11,3 +12,6 @@ export const useSoftInputMode = (mode: number) => {
     };
   });
 };
+
+export const useSoftInputMode =
+  Platform.OS === 'android' ? useSoftInputModeAndroid : () => {};

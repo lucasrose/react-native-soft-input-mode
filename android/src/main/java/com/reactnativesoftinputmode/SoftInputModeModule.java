@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
@@ -17,8 +16,6 @@ import com.facebook.react.module.annotations.ReactModule;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.facebook.react.devsupport.JSCHeapCapture.TAG;
 
 @ReactModule(name = SoftInputModeModule.NAME)
 public class SoftInputModeModule extends ReactContextBaseJavaModule {
